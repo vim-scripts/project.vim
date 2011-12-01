@@ -10,7 +10,7 @@ endif
 
 let g:session_file = g:base_dir . "/session.vim"
 if filereadable(g:session_file)
-	silent! execute "so " . g:searched_file
+	silent! execute "so " . g:session_file
 endif
 
 " Change to the directory
@@ -76,7 +76,7 @@ let g:cscope_cmd = "!cscope -b -q -k -i "
 "     START PROJECT FUNCTIONS AND VARIABLES, This will overlap your vimrc file
 "--------------------------------------------------------------------
 func! Init_environment()
-	"use space to jump
+	"使用空格来跳转
 	noremap <space> <C-]>zz
 	noremap <m-q> <C-W>c
 	noremap <C-S> :w<CR>
@@ -127,7 +127,7 @@ func! Init_environment()
 	nmap -i :cs find i 
 	nmap -d :cs find d 
 
-	set cursorline
+	"set cursorline
 	set autochdir
 	set number
 	set ruler
@@ -445,19 +445,26 @@ func! Init_project()
 endfunc
 
 "Close the project, which will prompt to ask you whether to save the project.
-func! Close_save_project()
+func! Save_project()
+        let save = input("Need to save this session [y/n]? Press enter to discard the action, else save it: ")
+        if save != 'n' && save != ''
+                confirm wall
+                if 1
+                        NERDTreeClose
+                endif
+                execute "mksession! " . g:session_file
+                if 1
+                        NERDTree
+                endif
+        endif
+endfunc
+
+func! Close_project()
 	let quit = input("Would you like to quit[y]? Press y or enter to exit: ")
 	if quit != 'y' && quit != ''
 		echo "Quit canceled."	
 	else
-		let save = input("Need to save this session [y/n]? Press enter to discard the action, else save it: ")
-		if save != 'n' && save != ''
-			confirm wall
-			if 1
-				NERDTreeClose
-			endif
-			execute "mksession! " . g:session_file
-		endif
+                call Save_project()
 		confirm qa
 	endif
 endfunc
@@ -490,12 +497,21 @@ noremap <F8>u :call Update_project(g:base_dir)<cr>
 " Clear
 noremap <F8>c :call Clear_project()<cr>
 " Close(quit)
-noremap <F8>q :call Close_save_project()<cr>
+noremap <F8>q :call Close_project()<cr>
+noremap <F8>s :call Save_project()<cr>
 " Open the project base directory
 noremap <F7>	:NERDTree <C-R>=g:base_dir<CR><CR>
 " Open the current directory
-noremap <F5>	:NERDTree<CR>
+noremap <F5>	:NERDTreeToggle<CR>
 " Count lines
 nmap <silent> _wc :call Count_project_lines(g:base_dir, g:files_list)<cr>
 
+menu Project.Update :silent call Update_project(g:base_dir)<cr>
+menu Project.Clear  :silent call Clear_project()<cr>
+menu Project.Quit   :call Close_project()<cr>
+menu Project.Save   :call Save_project()<cr>
+menu Project.Toggle\ Symbols\ List :TlistToggle<cr>
+menu Project.Open\ Project\ Directory :NERDTree <C-R>=g:base_dir<cr><cr>
+menu Project.Open\ Current\ Directory :NERDTree <C-R>=getcwd()<cr><cr>
+menu Project.Count\ Project\ Lines      :call Count_project_lines(g:base_dir, g:files_list)<cr>
 

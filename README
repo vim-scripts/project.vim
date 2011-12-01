@@ -1,23 +1,17 @@
 This is a mirror of http://www.vim.org/scripts/script.php?script_id=3811
 
-This script try to help you to open a C project quickly and automatically initialize the working environment, such as creating cscope, ctags files, files_list, etc.
+This script trys to help you open a C project quickly and automatically initialize the working environment, such as creating cscope, ctags files, files_list, etc.
 
-More work is needed. Now the script contains the following functionalitiy.
+More work is needed. Now the script contains the following functionalitiy:
+
 1. Initialize the project, which contains recording the work directory, mapping useful keys, etc.
 2. Create cscope.out files,  [ cscope.in.out, cscope.po.out are also included]
 3. Create ctags files, which is useful for omni completion, make sure you have install the omnicompletion script
-4. Update the project.
+4. Update the project. <F8>u
+5. Save the working status(just use "mksession" command). <F8>s
+6. Safely close the project. <F8>q
+7. Count source lines. (only take the advantage of  "wc" command)  _wc
+8. Clear the project, nothing extra files left. (no cscopes, no files.list, no session.vim...)  <F8>c
+9. Recover from the last working status.
 
-**2011-11-28**
-The new script has been updated. Five functionalities about project added.
-
-+1. Save the working status(use "mksession" command).
-+2. Safely close the project.
-+3. Count source lines. (only take the advantage of  "wc" command)
-+4. Clear the project, nothing extra files left. (no cscopes, no files.list, no session.vim...)
-+5. Recover from the last working status.
-
-And more map keys added. See more in the script file.  More detail about usage will be added soon
-
-**END**
-
+Support a menu named "Project". Read more from the script file.  More details about usage will be added soon.
