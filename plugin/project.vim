@@ -1,8 +1,124 @@
 " Author PJG <pjg864@163.com>
 
+"-------------------------------------------------------------
+" Hello! Here're some details about this script:
+"
+"   1) Usage: in your project directory, execute 
+"
+"           $ gvim -S /path/to/this_script.vim
+"
+"   2) Tips One: If you use GUI in linux, you can make a directory, 
+"   such as ~/bin/, put this script file in it, then write a shell 
+"   script like this:
+"
+"           #!/bin/bash
+"           gvim -S ~/bin/project.vim
+"
+"      You can name it as "open_project". Then execute:
+"           
+"           $ chmod +x open_project
+"
+"      Put this shell script in the same directory as project.vim. 
+"   Then add ~/bin/ to your PATH environment
+"
+"           $ export PATH=$PATH:~/bin
+"
+"           --or--
+"           
+"           $ echo 'export PATH=$PATH:~/bin' >> ~/.bashrc
+"
+"   	After you have done, you can 'cd ' to your project dir,
+"   then execute 'open_project'.
+"   	
+"   	Well, the most FANTASTIC thing is that you can put the
+"   shell script in your ~/.gnome2/nautilus-scripts/ directory,
+"   then you can find your nautilus "right-mouse" menu turns out
+"   a content, named "open_project". So, go to your C project 
+"   directory, and "right-click" the empty place, select "open_project",
+"   you will get what you want!
+"
+"   3) Tips Two: If you use Microsoft OS, you can write a bat file,
+"   like this:
+"
+"           start gvim -S C:\project.vim
+"
+"      save it as "open_project.bat".
+"      But I don't know how to write the windows "right-mouse" menu script,
+"   so make yourself! I would be pleasure to help you if you need any.
+"
+"   4) ATTENTION: please download these scripts from vim.org, 
+"   which is needed by this script!
+"
+"           NERDTree, Taglist, Omnicompletion
+"
+"     More scripts you can download, just as you need!
+"
+"     Above all, "cscope", "ctags", "wc" executable programes are needed.
+"   Windows OS users can get them from Internet. while Linux users, 
+"   just run your system supported package installer, such as "apt-get"
+"   or "Software Center". All these softwares are open and free.
+"
+"     However, "cscope" runs slowly in my windows machine, I have
+"   moved my work from windows to linux. You can try it!
+"
+"   5) Colorscheme recommend: "desert" or "evening", it's beautiful, and
+"   eye-protected.
+"
+"   6) Mapped Keys:
+"   	<F8>u		: update the project
+"   	<F8>c		: clear the project
+"   	<F8>s		: save the project
+"   	<F8>q		: quit the project, will ask you to save
+"   	_wc		: counte lines for project source files
+"   	<F7>		: open the project based directory
+"   	<F5>		: open the current file's directory
+"   	
+"   7) Some more useful keys in Init_environment function, list here:
+"   	<space>		: jump to definition
+"	<Alt-Q>		: close the present window
+"	<Ctrl-S>	: save the file
+"	<Ctrl-V>	: paste the system clip, only work in insert mode
+"	<Ctrl-C>	: copy to system clip, only work in visual mode
+"	<F1>		: backward
+"	<F2>		: forward
+"	<F3>		: jump to previous item showed in quickfix window (:cp)
+"	<F4>		: jump to next item showed in quickfix window (:cn)
+"	<Ctrl-F5>	: Open quickfix window (:copen)
+"	<F9>		: Toggle to show function list window (:TlistToggle)
+"
+"	`s		: search the cursor place symbol (cs find s)
+"       `g		: search the cursor place gloabl definition
+"       `c		: search which functions calling the cursor place function
+"       `t		: search the cursor place text
+"       `e		: search the cursor place egrep pattern text
+"       `f		: search the cursor place file, will search path
+"       `i		: search which file "#include" the current header file
+"       `d		: search which functions being called by current function
+"
+"       -s		: execute ":cs find s ", waiting for user's typing
+"       -g		: execute ":cs find g ", just as above
+"	-c		: execute ":cs find c ", just as above
+"       -t              : execute ":cs find t ", just as above
+"       -e              : execute ":cs find e ", just as above
+"       -f              : execute ":cs find f ", just as above
+"       -i              : execute ":cs find i ", just as above
+"       -d              : execute ":cs find d ", just as above
+"
+"
+"   8) More work will be done in furture.
+"
+"
+"   ++==**$$==--   2011-12-1  22:21  --==$$**==++
+"
+"-------------------------------------------------------------
+
+
+
+"-------------------------------------------------------------
 " Global variables
 " Make sure this file loaded on the project base directory
 " First Step, source "session" file
+"-------------------------------------------------------------
 
 if !exists("g:base_dir")
 	let g:base_dir = getcwd()
@@ -506,6 +622,7 @@ noremap <F5>	:NERDTreeToggle<CR>
 " Count lines
 nmap <silent> _wc :call Count_project_lines(g:base_dir, g:files_list)<cr>
 
+" Create a menu called Project, see preview, please use it.
 menu Project.Update :silent call Update_project(g:base_dir)<cr>
 menu Project.Clear  :silent call Clear_project()<cr>
 menu Project.Quit   :call Close_project()<cr>
